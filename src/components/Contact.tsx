@@ -33,46 +33,70 @@ export const Contact: React.FC<ContactProps> = ({ theme, openGuideModal }) => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'email-dispatched'>('idle');
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.name.trim() || formData.name.trim().length < 2) {
-      newErrors.name = 'Please provide your full name (at least 2 characters).';
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) {
-      newErrors.email = 'Please provide a valid email address.';
-    }
-    if (!formData.subject.trim() || formData.subject.trim().length < 3) {
-      newErrors.subject = 'Please provide a subject line.';
-    }
-    if (!formData.message.trim() || formData.message.trim().length < 10) {
-      newErrors.message = 'Please provide a message (minimum 10 characters).';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
+        const validate = () => {
+          const newErrors: { [key: string]: string } = {};
 
-    // Build the mailto link fallback with pre-filled content
-    const subjectEncoded = encodeURIComponent(`Portfolio Inquiry: ${formData.subject}`);
-    const bodyEncoded = encodeURIComponent(
-      `Hello Shiva,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\nSent from Portfolio Website.`
-    );
-    const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${subjectEncoded}&body=${bodyEncoded}`;
+          if (!formData.name.trim() || formData.name.trim().length < 2) {
+            newErrors.name = "Please provide your full name (at least 2 characters).";
+          }
 
-    // Open email client safely
-    window.location.href = mailtoUrl;
-    setSubmitStatus('email-dispatched');
-  };
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
+          if (
+            !formData.email.trim() ||
+            !emailRegex.test(formData.email.trim())
+          ) {
+            newErrors.email = "Please provide a valid email address.";
+          }
+
+          if (!formData.subject.trim() || formData.subject.trim().length < 6) {
+            newErrors.subject = "Please provide a subject line (at least 6 characters).";
+          }
+
+          if (!formData.message.trim() || formData.message.trim().length < 10) {
+            newErrors.message = "Please provide a message (minimum 10 characters).";
+          }
+
+          setErrors(newErrors);
+          return Object.keys(newErrors).length === 0;
+        };
+
+        const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+          e.preventDefault();
+
+          if (!validate()) return;
+
+          const subjectEncoded = encodeURIComponent(
+            `Portfolio Inquiry: ${formData.subject.trim()}`
+          );
+
+          const bodyEncoded = encodeURIComponent(
+            `Hello Shiva,\n\n` +
+            `Name: ${formData.name.trim()}\n` +
+            `Email: ${formData.email.trim()}\n` +
+            `Subject: ${formData.subject.trim()}\n\n` +
+            `Message:\n${formData.message.trim()}\n\n` +
+            `Sent from Portfolio Website.`
+          );
+
+          const mailtoUrl =
+            `mailto:${PERSONAL_INFO.email}?subject=${subjectEncoded}&body=${bodyEncoded}`;
+
+          window.location.href = mailtoUrl;
+          setSubmitStatus("email-dispatched");
+        };
+
+        const copyEmailToClipboard = async () => {
+          try {
+            await navigator.clipboard.writeText(PERSONAL_INFO.email);
+            setCopiedEmail(true);
+            setTimeout(() => setCopiedEmail(false), 2000);
+          } catch (error) {
+            console.error("Unable to copy email address:", error);
+          }
+        };
+
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
@@ -126,7 +150,6 @@ export const Contact: React.FC<ContactProps> = ({ theme, openGuideModal }) => {
                   <ExternalLink className="w-4 h-4 text-emerald-400 transition-transform group-hover:translate-x-0.5" />
                 </a>
                 <p className="text-[11px] font-mono text-slate-500 mt-1.5 pl-1">
-                  Prefilled message ready: "+977 9807404088"
                 </p>
               </div>
 

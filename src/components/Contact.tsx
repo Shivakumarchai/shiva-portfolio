@@ -221,122 +221,188 @@ export const Contact: React.FC<ContactProps> = ({ theme, openGuideModal }) => {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {/* Full Name */}
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5">
-                      Full Name <span className="text-rose-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. John Doe"
-                      className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
-                        errors.name
-                          ? 'border-rose-500 bg-rose-500/10'
-                          : theme === 'dark'
-                            ? 'bg-[#080B16] border-slate-700 text-white placeholder-slate-500'
-                            : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'
-                      }`}
-                    />
-                    {errors.name && (
-                      <p className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
-                        {errors.name}
-                      </p>
-                    )}
-                  </div>
+              
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      {/* Full Name */}
+                      <div>
+                        <label
+                          htmlFor="contact-name"
+                          className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5"
+                        >
+                          Full Name <span className="text-rose-400">*</span>
+                        </label>
 
-                  {/* Email Address */}
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5">
-                      Email Address <span className="text-rose-400">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="e.g. name@company.com"
-                      className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
-                        errors.email
-                          ? 'border-rose-500 bg-rose-500/10'
-                          : theme === 'dark'
-                            ? 'bg-[#080B16] border-slate-700 text-white placeholder-slate-500'
-                            : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                        <input
+                          id="contact-name"
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          value={formData.name}
+                          onChange={(e) =>
+                            setFormData({ ...formData, name: e.target.value })
+                          }
+                          placeholder="e.g. John Doe"
+                          aria-invalid={Boolean(errors.name)}
+                          aria-describedby={errors.name ? "contact-name-error" : undefined}
+                          className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
+                            errors.name
+                              ? "border-rose-500 bg-rose-500/10"
+                              : theme === "dark"
+                                ? "bg-[#080B16] border-slate-700 text-white placeholder-slate-500"
+                                : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400"
+                          }`}
+                        />
 
-                {/* Subject */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5">
-                    Subject <span className="text-rose-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="e.g. Data Analyst Role Inquiry / BI Consultation"
-                    className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
-                      errors.subject
-                        ? 'border-rose-500 bg-rose-500/10'
-                        : theme === 'dark'
-                          ? 'bg-[#080B16] border-slate-700 text-white placeholder-slate-500'
-                          : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'
-                    }`}
-                  />
-                  {errors.subject && (
-                    <p className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {errors.subject}
-                    </p>
-                  )}
-                </div>
+                        {errors.name && (
+                          <p
+                            id="contact-name-error"
+                            className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1"
+                          >
+                            <AlertCircle className="w-3 h-3" />
+                            {errors.name}
+                          </p>
+                        )}
+                      </div>
 
-                {/* Message */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5">
-                    Message <span className="text-rose-400">*</span>
-                  </label>
-                  <textarea
-                    rows={5}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Describe your project, position details, or analytics requirements..."
-                    className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
-                      errors.message
-                        ? 'border-rose-500 bg-rose-500/10'
-                        : theme === 'dark'
-                          ? 'bg-[#080B16] border-slate-700 text-white placeholder-slate-500'
-                          : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'
-                    }`}
-                  />
-                  {errors.message && (
-                    <p className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
+                      {/* Email Address */}
+                      <div>
+                        <label
+                          htmlFor="contact-email"
+                          className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5"
+                        >
+                          Email Address <span className="text-rose-400">*</span>
+                        </label>
 
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#43E8FF] to-[#8B5CF6] text-black font-bold text-sm tracking-wide shadow-lg shadow-[#43E8FF]/20 hover:opacity-95 transition-all flex items-center justify-center gap-2"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Send Message via Email Client</span>
-                </button>
-              </form>
+                        <input
+                          id="contact-email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          placeholder="e.g. name@company.com"
+                          aria-invalid={Boolean(errors.email)}
+                          aria-describedby={errors.email ? "contact-email-error" : undefined}
+                          className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
+                            errors.email
+                              ? "border-rose-500 bg-rose-500/10"
+                              : theme === "dark"
+                                ? "bg-[#080B16] border-slate-700 text-white placeholder-slate-500"
+                                : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400"
+                          }`}
+                        />
+
+                        {errors.email && (
+                          <p
+                            id="contact-email-error"
+                            className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1"
+                          >
+                            <AlertCircle className="w-3 h-3" />
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Subject */}
+                    <div>
+                      <label
+                        htmlFor="contact-subject"
+                        className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5"
+                      >
+                        Subject <span className="text-rose-400">*</span>
+                      </label>
+
+                      <input
+                        id="contact-subject"
+                        name="subject"
+                        type="text"
+                        autoComplete="off"
+                        value={formData.subject}
+                        onChange={(e) =>
+                          setFormData({ ...formData, subject: e.target.value })
+                        }
+                        placeholder="e.g. Data Analyst Role Inquiry / BI Consultation"
+                        aria-invalid={Boolean(errors.subject)}
+                        aria-describedby={
+                          errors.subject ? "contact-subject-error" : undefined
+                        }
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
+                          errors.subject
+                            ? "border-rose-500 bg-rose-500/10"
+                            : theme === "dark"
+                              ? "bg-[#080B16] border-slate-700 text-white placeholder-slate-500"
+                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400"
+                        }`}
+                      />
+
+                      {errors.subject && (
+                        <p
+                          id="contact-subject-error"
+                          className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1"
+                        >
+                          <AlertCircle className="w-3 h-3" />
+                          {errors.subject}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <label
+                        htmlFor="contact-message"
+                        className="block text-xs font-mono uppercase tracking-wider text-[#9BA7C4] mb-1.5"
+                      >
+                        Message <span className="text-rose-400">*</span>
+                      </label>
+
+                      <textarea
+                        id="contact-message"
+                        name="message"
+                        rows={5}
+                        autoComplete="off"
+                        value={formData.message}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
+                        placeholder="Describe your project, position details, or analytics requirements..."
+                        aria-invalid={Boolean(errors.message)}
+                        aria-describedby={
+                          errors.message ? "contact-message-error" : undefined
+                        }
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#43E8FF] ${
+                          errors.message
+                            ? "border-rose-500 bg-rose-500/10"
+                            : theme === "dark"
+                              ? "bg-[#080B16] border-slate-700 text-white placeholder-slate-500"
+                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400"
+                        }`}
+                      />
+
+                      {errors.message && (
+                        <p
+                          id="contact-message-error"
+                          className="text-[11px] font-mono text-rose-400 mt-1 flex items-center gap-1"
+                        >
+                          <AlertCircle className="w-3 h-3" />
+                          {errors.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#43E8FF] to-[#8B5CF6] text-black font-bold text-sm tracking-wide shadow-lg shadow-[#43E8FF]/20 hover:opacity-95 transition-all flex items-center justify-center gap-2"
+                    >
+                      <Send className="w-4 h-4" />
+                      <span>Send Message via Email Client</span>
+                    </button>
+                  </form>
+
             </div>
           </div>
 

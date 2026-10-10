@@ -14,7 +14,7 @@ import { DashboardSection } from './components/DashboardSection';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
-
+import { SetupGuideModal } from './components/SetupGuideModal';
 
 export default function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
